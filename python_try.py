@@ -26,9 +26,12 @@ animal = ["background/bee.jpg", "background/butterfly.jpg", "background/carrot.j
 
 
 def isEqual(img1, img2):
-    result = cv2.addWeighted(img1, 1, img2, -1, 0)
-    result2 = cv2.cvtColor(result, cv2.COLOR_RGB2GRAY)
-    return result2
+    if img1 is not None:
+        result = cv2.addWeighted(img1, 1, img2, -1, 0)
+        result2 = cv2.cvtColor(result, cv2.COLOR_RGB2GRAY)
+        return result2
+    else:
+        return None
 
 
 def getResult(img):
