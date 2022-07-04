@@ -1,11 +1,18 @@
 # -*- encoding=utf8 -*-
-__author__ = "ziyuc"
+__author__ = "dglr"
+
+from airtest.core.api import *
+
+auto_setup(__file__)
+
 from airtest.core.api import *
 from base64 import b64decode
 import cv2
 import numpy as np
 
-auto_setup(__file__)
+
+from poco.drivers.android.uiautomation import AndroidUiautomationPoco
+poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
 
 animal = ["background/bee.jpg", "background/butterfly.jpg", "background/carrot.jpg", "background/cat.jpg", "background/monkey.jpg", "background/squirrel.jpg"]
 
@@ -78,15 +85,15 @@ from poco.drivers.android.uiautomation import AndroidUiautomationPoco
 
 poco = AndroidUiautomationPoco(use_airtest_input=True, screenshot_each_action=False)
 
-success = poco("安安车生活").exists()
-if not success:
-    log.logger.debug("can not open app")
-poco("安安车生活").click()
-success = poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/navigation").offspring("首页").child("com.safeluck.life:id/icon").exists()
+# success = poco("安安车生活").exists()
+# if not success:
+#     log("can not open app")
+# poco("安安车生活").click()
+# success = poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/navigation").offspring("首页").child("com.safeluck.life:id/icon").exists()
 
-if not success:
-    print("open app failed!")
-    #未能打开界面
+# if not success:
+#     print("open app failed!")
+#     #未能打开界面
 poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/navigation").offspring("首页").child("com.safeluck.life:id/icon").click()
 
 poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/navigation").offspring("教学管理").child("com.safeluck.life:id/icon").click()
@@ -94,6 +101,7 @@ poco(text="预约培训").click()
 poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/webview").child("android.webkit.WebView").child("android.webkit.WebView").child("android.view.View")[3].child("android.view.View").child("android.view.View").child("android.view.View").child("android.view.View").child("android.view.View").child("android.view.View").child("android.view.View")[3].click()
 poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/webview").child("android.webkit.WebView").child("android.webkit.WebView").child("android.view.View")[1].child("android.view.View")[0].child("android.view.View").offspring("android.widget.ListView").child("android.view.View")[1].click()
 
+poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/webview").child("android.webkit.WebView").child("android.webkit.WebView").child("android.view.View")[1].child("android.view.View")[2].child("android.widget.TextView")[1].click()
 
 poco.swipe([0.5,0.3],[0.5,0.9])
 
@@ -157,6 +165,5 @@ img1_background = img[566:748, 39:684]
 cv2.imwrite("real_background.jpg", img1_background)
 
 name = "real_background.jpg"
-
 
 
