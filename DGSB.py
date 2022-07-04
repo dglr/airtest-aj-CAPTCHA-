@@ -9,6 +9,7 @@ from airtest.core.api import *
 from base64 import b64decode
 import cv2
 import numpy as np
+import sys
 
 
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
@@ -78,7 +79,7 @@ def get_lens(name):
     return s_lens, lens
 
 
-texts = ["14:00-", "14:30-", "15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-""18:30-","19:00-","19:30-","20:00-"]
+texts = ["14:00-", "14:30-", "15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-"]
 
 
 from poco.drivers.android.uiautomation import AndroidUiautomationPoco
@@ -103,27 +104,55 @@ poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offsprin
 
 poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/webview").child("android.webkit.WebView").child("android.webkit.WebView").child("android.view.View")[1].child("android.view.View")[2].child("android.widget.TextView")[1].click()
 
-poco.swipe([0.5,0.3],[0.5,0.9])
-
-
-texts = ["14:00-", "14:30-", "15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-""18:30-","19:00-","19:30-","20:00-"]
 
 
 poco.swipe([0.5,0.9],[0.5,0.3])
 
+texts = ["14:00-", "14:30-", "15:00-","15:30-","16:00-","16:30-","17:00-","17:30-","18:00-","18:30-","19:00-","19:30-","20:00-"]
+
+empty = False
+
+for i in poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.safeluck.life:id/webview").child("android.webkit.WebView").child("android.webkit.WebView").child("android.view.View")[2].child("android.view.View").child("android.view.View").child("android.view.View").child("android.view.View"):
+  if len(i.child("android.view.View"))< 5:
+   continue
+  if i.child("android.view.View")[1].get_text() not in texts:
+  click_node = i.child("android.view.View")[4]
+  text = click_node.get_text()
+  if text == "已约满":
+   log(i.child("android.view.View")[1].get_text() + "时间段已满")
+  elif text == "预约":
+   click_node.click()
+   empty = True
+   break
+if not empty:
+ log("菜鸡，没有空余位置")
+
+    
+   
+
+
+
+    poco(text=" 已预约").click()
+
+
+
 empty = False
 for text in texts:
-    node = poco(text=text).parent().child("android.view.View")[6]
-    result = node.get_text
-    if result == "已约满":
-        log.logger.Info(text + "时间段已满")
-    else:
-        node.click()
-        empty = True
-        break
+  node_2 = poco(text=text)
+  print(node_2.get_text()) 
+  node_p = node_2.parent()
+  print(node_p)
+  node = node_p.child("android.view.View")[6]
+  result = node.get_text
+  print(result)
+  if result == "已约满":
+   log.logger.Info(text + "时间段已满")
+  else:
+   node.click()
+   empty = True
+   break
 if not empty:
-    log.logger.Info("菜鸡，没有空余位置")
-    sys.pause()
+ log.logger.Info("菜鸡，没有空余位置")
 
 
         
@@ -165,5 +194,6 @@ img1_background = img[566:748, 39:684]
 cv2.imwrite("real_background.jpg", img1_background)
 
 name = "real_background.jpg"
+
 
 
